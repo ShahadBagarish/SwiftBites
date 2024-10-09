@@ -14,10 +14,10 @@ final class RecipeModel: Comparable, Identifiable, Hashable, Codable {
     let id: UUID
     var name: String
     var summary: String
-    var category: CategoryModel?
+    var category: CategoryModel? // One recipe can belong to only-one categories ( one-to-many)
     var serving: Int
     var time: Int
-    var ingredients: [RecipeIngredientModel]
+    var ingredients: [RecipeIngredientModel] // One recipe can belong to many RecipeIngredient ( one-to-many)
     var instructions: String
     var imageData: Data?
     
@@ -73,7 +73,7 @@ final class RecipeModel: Comparable, Identifiable, Hashable, Codable {
         imageData = Data()
     }
     
-    init(id: UUID, name: String, summary: String, category: CategoryModel?, serving: Int, time: Int, ingredients: [RecipeIngredientModel], instructions: String, imageData:Data?) {
+    init(id: UUID = UUID(), name: String, summary: String, category: CategoryModel?, serving: Int, time: Int, ingredients: [RecipeIngredientModel], instructions: String, imageData:Data?) {
         self.id = id
         self.name = name
         self.summary = summary

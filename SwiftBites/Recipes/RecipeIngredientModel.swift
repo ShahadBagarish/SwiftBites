@@ -12,7 +12,8 @@ import SwiftData
 final class RecipeIngredientModel: Comparable, Identifiable, Hashable, Codable {
     
     let id: UUID
-    var ingredient: IngredientModel
+    var ingredient: IngredientModel // One recipesIngredient can belong to only-one Ingredient ( one-to-many)
+//    var recipesIngredient: RecipeModel? // One recipesIngredient can belong to only-one Recipe ( one-to-many)
     var quantity: String
     
     enum codingKeys: String, CodingKey {
@@ -43,7 +44,7 @@ final class RecipeIngredientModel: Comparable, Identifiable, Hashable, Codable {
         quantity = ""
     }
     
-    init(id: UUID, ingredient: IngredientModel, quantity: String) {
+    init(id: UUID = UUID(), ingredient: IngredientModel, quantity: String) {
         self.id = id
         self.ingredient = ingredient
         self.quantity = quantity

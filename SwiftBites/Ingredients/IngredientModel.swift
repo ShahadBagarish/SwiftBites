@@ -11,9 +11,13 @@ import SwiftData
 @Model
 final class IngredientModel: Comparable, Identifiable, Hashable, Codable {
     
+    //Primary Key
     let id: UUID
     var name: String
     
+//    @Relationship
+//    var recipesIngredient: [RecipeIngredientModel] = [] // One Ingredient can belong to many recipesIngredient ( one-to-many)
+//    
     enum codingKeys: String, CodingKey {
         case id
         case name
@@ -38,7 +42,7 @@ final class IngredientModel: Comparable, Identifiable, Hashable, Codable {
         name = ""
     }
     
-    init(id: UUID, name: String) {
+    init(id: UUID = UUID(), name: String) {
         self.id = id
         self.name = name
     }

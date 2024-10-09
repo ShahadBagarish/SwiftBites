@@ -13,7 +13,7 @@ final class CategoryModel: Comparable, Identifiable, Hashable, Codable {
     
     let id: UUID
     var name: String
-    var recipes: [RecipeModel]
+    var recipes: [RecipeModel] // One Category can belong to many recipes ( one-to-many)
     
     enum codingKeys: String, CodingKey {
         case id
@@ -43,7 +43,7 @@ final class CategoryModel: Comparable, Identifiable, Hashable, Codable {
         recipes = []
     }
     
-    init(id: UUID, name: String, recipes: [RecipeModel]) {
+    init(id: UUID = UUID(), name: String, recipes: [RecipeModel]  = []) {
         self.id = id
         self.name = name
         self.recipes = recipes

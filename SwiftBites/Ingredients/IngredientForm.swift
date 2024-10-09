@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct IngredientForm: View {
   enum Mode: Hashable {
@@ -26,6 +27,10 @@ struct IngredientForm: View {
   @Environment(\.storage) private var storage
   @Environment(\.dismiss) private var dismiss
   @FocusState private var isNameFocused: Bool
+
+    //For retrieve data using SwiftData
+    @Query private var ingredient: [IngredientModel]
+    @Environment(\.modelContext) var context
 
   // MARK: - Body
 

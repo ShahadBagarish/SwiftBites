@@ -1,8 +1,11 @@
 import SwiftUI
+import SwiftData
 
 struct IngredientsView: View {
   typealias Selection = (MockIngredient) -> Void
-
+    
+    @Environment(\.modelContext) private var modelContext
+    
   let selection: Selection?
 
   init(selection: Selection? = nil) {
