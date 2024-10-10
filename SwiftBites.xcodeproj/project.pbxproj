@@ -28,6 +28,7 @@
 		5EF632782CB4049F005511D0 /* RecipeIngredientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF632772CB4049F005511D0 /* RecipeIngredientModel.swift */; };
 		5EF6327A2CB65675005511D0 /* ModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF632792CB65675005511D0 /* ModelContainer.swift */; };
 		5EF6327C2CB6A221005511D0 /* DefaultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF6327B2CB6A221005511D0 /* DefaultData.swift */; };
+		5EF6327F2CB6A853005511D0 /* IngredientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF6327E2CB6A853005511D0 /* IngredientViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		5EF632772CB4049F005511D0 /* RecipeIngredientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeIngredientModel.swift; sourceTree = "<group>"; };
 		5EF632792CB65675005511D0 /* ModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContainer.swift; sourceTree = "<group>"; };
 		5EF6327B2CB6A221005511D0 /* DefaultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultData.swift; sourceTree = "<group>"; };
+		5EF6327E2CB6A853005511D0 /* IngredientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 				07F6DE3E2B04321F004AD929 /* IngredientForm.swift */,
 				078C79692B015772009744FD /* IngredientsView.swift */,
 				5EF632732CB4047A005511D0 /* IngredientModel.swift */,
+				5EF6327E2CB6A853005511D0 /* IngredientViewModel.swift */,
 			);
 			path = Ingredients;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0719D42F2B058E8D00B1A4E3 /* CategoryForm.swift in Sources */,
+				5EF6327F2CB6A853005511D0 /* IngredientViewModel.swift in Sources */,
 				07A2073E2AFAF5100048B7EA /* Main.swift in Sources */,
 				07CF2F372B0A39FE003B83AD /* RecipeCell.swift in Sources */,
 				5EF6327C2CB6A221005511D0 /* DefaultData.swift in Sources */,

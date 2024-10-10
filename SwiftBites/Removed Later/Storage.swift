@@ -8,6 +8,7 @@ import SwiftUI
 
 @Observable
 final class Storage {
+    
   enum Error: LocalizedError {
     case ingredientExists
     case categoryExists
@@ -282,17 +283,17 @@ final class Storage {
   func addRecipe(
     name: String,
     summary: String,
-    category: MockCategory?,
+    category: CategoryModel?,
     serving: Int,
     time: Int,
-    ingredients: [MockRecipeIngredient],
+    ingredients: [RecipeIngredientModel],
     instructions: String,
     imageData: Data?
   ) throws {
     guard recipes.contains(where: { $0.name == name }) == false else {
       throw Error.recipeExists
     }
-    let recipe = MockRecipe(
+    let recipe = RecipeModel(
       name: name,
       summary: summary,
       category: category,
@@ -302,9 +303,9 @@ final class Storage {
       instructions: instructions,
       imageData: imageData
     )
-    recipes.append(recipe)
+//    recipes.append(recipe)
     if let category, let index = categories.firstIndex(where: { $0.id == category.id }) {
-      categories[index].recipes.append(recipe)
+//      categories[index].recipes.append(recipe)
     }
   }
 

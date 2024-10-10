@@ -71,8 +71,8 @@ struct RecipeForm: View {
     .alert(error: $error)
     .toolbar {
       ToolbarItem(placement: .topBarTrailing) {
-        Button("Save", action: save)
-          .disabled(name.isEmpty || instructions.isEmpty)
+//        Button("Save", action: save)
+//          .disabled(name.isEmpty || instructions.isEmpty)
       }
     }
     .onChange(of: imageItem) { _, _ in
@@ -87,8 +87,8 @@ struct RecipeForm: View {
 
   private func ingredientPicker() -> some View {
     IngredientsView { selectedIngredient in
-      let recipeIngredient = MockRecipeIngredient(ingredient: selectedIngredient, quantity: "")
-      ingredients.append(recipeIngredient)
+//      let recipeIngredient = MockRecipeIngredient(ingredient: selectedIngredient, quantity: "")
+//      ingredients.append(recipeIngredient)
     }
   }
 
@@ -267,38 +267,38 @@ struct RecipeForm: View {
     }
   }
 
-  func save() {
-    let category = storage.categories.first(where: { $0.id == categoryId })
-
-    do {
-      switch mode {
-      case .add:
-        try storage.addRecipe(
-          name: name,
-          summary: summary,
-          category: category,
-          serving: serving,
-          time: time,
-          ingredients: ingredients,
-          instructions: instructions,
-          imageData: imageData
-        )
-      case .edit(let recipe):
-        try storage.updateRecipe(
-          id: recipe.id,
-          name: name,
-          summary: summary,
-          category: category,
-          serving: serving,
-          time: time,
-          ingredients: ingredients,
-          instructions: instructions,
-          imageData: imageData
-        )
-      }
-      dismiss()
-    } catch {
-      self.error = error
-    }
-  }
+//  func save() {
+//    let category = storage.categories.first(where: { $0.id == categoryId })
+//
+//    do {
+//      switch mode {
+//      case .add:
+//        try storage.addRecipe(
+//          name: name,
+//          summary: summary,
+//          category: category,
+//          serving: serving,
+//          time: time,
+//          ingredients: ingredients,
+//          instructions: instructions,
+//          imageData: imageData
+//        )
+//      case .edit(let recipe):
+//        try storage.updateRecipe(
+//          id: recipe.id,
+//          name: name,
+//          summary: summary,
+//          category: category,
+//          serving: serving,
+//          time: time,
+//          ingredients: ingredients,
+//          instructions: instructions,
+//          imageData: imageData
+//        )
+//      }
+//      dismiss()
+//    } catch {
+//      self.error = error
+//    }
+//  }
 }
