@@ -14,10 +14,10 @@ final class RecipeModel: Comparable, Identifiable, Hashable, Codable {
     let id: UUID
     var name: String
     var summary: String
-    var category: CategoryModel? // One recipe can belong to only-one categories ( one-to-many)
+    @Relationship(deleteRule: .nullify) var category: CategoryModel? // One recipe can belong to only-one categories ( one-to-many)
     var serving: Int
     var time: Int
-    var ingredients: [RecipeIngredientModel] // One recipe can belong to many RecipeIngredient ( one-to-many)
+    @Relationship(deleteRule: .cascade) var ingredients: [RecipeIngredientModel] // One recipe can belong to many RecipeIngredient ( one-to-many)
     var instructions: String
     var imageData: Data?
     

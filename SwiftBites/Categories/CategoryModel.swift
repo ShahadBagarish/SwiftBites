@@ -13,7 +13,7 @@ final class CategoryModel: Comparable, Identifiable, Hashable, Codable {
     
     let id: UUID
     var name: String
-    var recipes: [RecipeModel] // One Category can belong to many recipes ( one-to-many)
+    @Relationship(deleteRule: .cascade) var recipes: [RecipeModel] = [] // One Category can belong to many recipes ( one-to-many)
     
     enum codingKeys: String, CodingKey {
         case id

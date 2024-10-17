@@ -12,12 +12,15 @@ import SwiftData
 final class IngredientModel: Comparable, Identifiable, Hashable, Codable {
     
     //Primary Key
-    let id: UUID
+//    let id: UUID
+//    var name: String
+    @Attribute(.unique)
+    var id = UUID()
+    @Attribute(.unique)
     var name: String
+    @Relationship(deleteRule: .nullify)
+    var recipeIngredients: [RecipeIngredientModel]?
     
-//    @Relationship
-//    var recipesIngredient: [RecipeIngredientModel] = [] // One Ingredient can belong to many recipesIngredient ( one-to-many)
-//    
     enum codingKeys: String, CodingKey {
         case id
         case name

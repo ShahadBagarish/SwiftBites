@@ -79,28 +79,48 @@ struct IngredientForm: View {
         
         context.delete(ingredient)
         try? context.save()
-        ingredientViewModel.deleteIngredient(id: ingredient.id, modelContext: context)
+//        ingredientViewModel.deleteIngredient(id: ingredient.id, modelContext: context)
         dismiss()
     }
     
-    private func update(ingredient: IngredientModel) {
-        print("DEBUG From view: \(ingredient.id)")
-        context.delete(ingredient)
-        try? context.save()
-        ingredientViewModel.deleteIngredient(id: ingredient.id, modelContext: context)
-    }
+//    private func update(ingredient: IngredientModel) {
+//        print("DEBUG From view: \(ingredient.id)")
+//        context.delete(ingredient)
+//        try? context.save()
+//        ingredientViewModel.deleteIngredient(id: ingredient.id, modelContext: context)
+//    }
+    
+//    private func save() {
+//        do {
+//            switch mode {
+//            case .add:
+//                try ingredientViewModel.addIngredient(name: name, modelContext: context)
+//            case .edit(let ingredient):
+//                try ingredientViewModel.updateIngredient(id: ingredient.id, name: name, modelContext: context)
+//            }
+//            dismiss()
+//        } catch {
+//            self.error = error
+//        }
+//    }
     
     private func save() {
-        do {
-            switch mode {
-            case .add:
-                try ingredientViewModel.addIngredient(name: name, modelContext: context)
-            case .edit(let ingredient):
-                try ingredientViewModel.updateIngredient(id: ingredient.id, name: name, modelContext: context)
-            }
-            dismiss()
-        } catch {
-            self.error = error
-        }
+      switch mode {
+      case .add:
+        let ingredient = IngredientModel(name: name)
+        context.insert(ingredient)
+      case .edit(let ingredient):
+        ingredient.name = name
+      }
+      
+      // Save changes
+      do {
+        try context.save()
+        
+        dismiss()
+      } catch {
+        print("Error saving context: \(error)")
+      }
     }
+
 }

@@ -38,4 +38,5 @@ final class IngredientViewModel {
       }
       ingredients[index].name = name
     }
+    
 }
