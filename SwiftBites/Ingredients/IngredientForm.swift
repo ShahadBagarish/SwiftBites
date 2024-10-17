@@ -32,7 +32,6 @@ struct IngredientForm: View {
     //For retrieve data using SwiftData
     @Query private var ingredient: [IngredientModel]
     @Environment(\.modelContext) var context
-    @State private var ingredientViewModel = IngredientViewModel()
     
     // MARK: - Body
     
@@ -72,37 +71,14 @@ struct IngredientForm: View {
     }
     
     // MARK: - Data
-    
 
     private func delete(ingredient: IngredientModel) {
         print("DEBUG from FORM: \(ingredient.id)")
         
         context.delete(ingredient)
         try? context.save()
-//        ingredientViewModel.deleteIngredient(id: ingredient.id, modelContext: context)
         dismiss()
     }
-    
-//    private func update(ingredient: IngredientModel) {
-//        print("DEBUG From view: \(ingredient.id)")
-//        context.delete(ingredient)
-//        try? context.save()
-//        ingredientViewModel.deleteIngredient(id: ingredient.id, modelContext: context)
-//    }
-    
-//    private func save() {
-//        do {
-//            switch mode {
-//            case .add:
-//                try ingredientViewModel.addIngredient(name: name, modelContext: context)
-//            case .edit(let ingredient):
-//                try ingredientViewModel.updateIngredient(id: ingredient.id, name: name, modelContext: context)
-//            }
-//            dismiss()
-//        } catch {
-//            self.error = error
-//        }
-//    }
     
     private func save() {
       switch mode {

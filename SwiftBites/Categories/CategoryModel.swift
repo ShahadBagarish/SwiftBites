@@ -10,10 +10,13 @@ import SwiftData
 
 @Model
 final class CategoryModel: Comparable, Identifiable, Hashable, Codable {
-    
-    let id: UUID
+
+    @Attribute(.unique)
+    var id = UUID()
+    @Attribute(.unique)
     var name: String
-    @Relationship(deleteRule: .cascade) var recipes: [RecipeModel] = [] // One Category can belong to many recipes ( one-to-many)
+    @Relationship(deleteRule: .cascade, inverse: \RecipeModel.category)
+    var recipes: [RecipeModel]
     
     enum codingKeys: String, CodingKey {
         case id

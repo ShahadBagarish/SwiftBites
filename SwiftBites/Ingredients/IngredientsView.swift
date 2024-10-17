@@ -9,14 +9,11 @@ struct IngredientsView: View {
     init(selection: Selection? = nil) {
         self.selection = selection
     }
-    
-    //  @Environment(\.storage) private var storage
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Query private var ingredients: [IngredientModel]
     @State private var query = ""
-    @State private var ingredientViewModel = IngredientViewModel()
-
+    
     // MARK: - Body
     
     var body: some View {
@@ -127,6 +124,5 @@ struct IngredientsView: View {
         print("DEBUG From view: \(ingredient.id)")
         context.delete(ingredient)
         try? context.save()
-        ingredientViewModel.deleteIngredient(id: ingredient.id, modelContext: context)
     }
 }

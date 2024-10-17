@@ -11,9 +11,6 @@ import SwiftData
 @Model
 final class IngredientModel: Comparable, Identifiable, Hashable, Codable {
     
-    //Primary Key
-//    let id: UUID
-//    var name: String
     @Attribute(.unique)
     var id = UUID()
     @Attribute(.unique)

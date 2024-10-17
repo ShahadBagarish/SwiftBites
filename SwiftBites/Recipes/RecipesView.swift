@@ -3,11 +3,29 @@ import SwiftData
 
 
 struct RecipesView: View {
-    @Environment(\.storage) private var storage
+    
+    @Environment(\.modelContext) private var context
+    @Query(FetchDescriptor<RecipeModel>(sortBy: [SortDescriptor(\RecipeModel.name)]))
+    private var recipes: [RecipeModel] = []
+    
     @State private var query = ""
-    @State private var sortOrder = SortDescriptor(\MockRecipe.name)
-    @Query(sort: [SortDescriptor(\RecipeModel.name)]) var recipes: [RecipeModel]
-    @State private var searchText = ""
+    @State private var sortOrder = SortDescriptor(\RecipeModel.name)
+    
+    // Search ingredients
+    var filteredRecipes: [RecipeModel] {
+      let recipesPredicate = #Predicate<RecipeModel> { $0.name.localizedStandardContains(query)
+      }
+      
+      let descriptor = FetchDescriptor<RecipeModel>(predicate: query.isEmpty ? nil : recipesPredicate, sortBy: [SortDescriptor(\RecipeModel.name)]
+      )
+      
+      do {
+        let filteredRecipes = try context.fetch(descriptor)
+        return filteredRecipes
+      } catch {
+        return []
+      }
+    }
     // MARK: - Body
     
     var body: some View {
@@ -15,7 +33,7 @@ struct RecipesView: View {
             content
                 .navigationTitle("Recipes")
                 .toolbar {
-                    if !storage.recipes.isEmpty {
+                    if !recipes.isEmpty {
                         sortOptions
                         ToolbarItem(placement: .topBarTrailing) {
                             NavigationLink(value: RecipeForm.Mode.add) {
@@ -38,19 +56,19 @@ struct RecipesView: View {
             Menu("Sort", systemImage: "arrow.up.arrow.down") {
                 Picker("Sort", selection: $sortOrder) {
                     Text("Name")
-                        .tag(SortDescriptor(\MockRecipe.name))
+                        .tag(SortDescriptor(\RecipeModel.name))
                     
                     Text("Serving (low to high)")
-                        .tag(SortDescriptor(\MockRecipe.serving, order: .forward))
+                        .tag(SortDescriptor(\RecipeModel.serving, order: .forward))
                     
                     Text("Serving (high to low)")
-                        .tag(SortDescriptor(\MockRecipe.serving, order: .reverse))
+                        .tag(SortDescriptor(\RecipeModel.serving, order: .reverse))
                     
                     Text("Time (short to long)")
-                        .tag(SortDescriptor(\MockRecipe.time, order: .forward))
+                        .tag(SortDescriptor(\RecipeModel.time, order: .forward))
                     
                     Text("Time (long to short)")
-                        .tag(SortDescriptor(\MockRecipe.time, order: .reverse))
+                        .tag(SortDescriptor(\RecipeModel.time, order: .reverse))
                 }
             }
             .pickerStyle(.inline)
@@ -59,16 +77,10 @@ struct RecipesView: View {
     
     @ViewBuilder
     private var content: some View {
-        if storage.recipes.isEmpty {
+        if recipes.isEmpty {
             empty
         } else {
-            list(for: storage.recipes.filter {
-                if query.isEmpty {
-                    return true
-                } else {
-                    return $0.name.localizedStandardContains(query) || $0.summary.localizedStandardContains(query)
-                }
-            }.sorted(using: sortOrder))
+            list(for: filteredRecipes.sorted(using: sortOrder))
         }
     }
     
@@ -96,7 +108,7 @@ struct RecipesView: View {
         )
     }
     
-    private func list(for recipes: [MockRecipe]) -> some View {
+    private func list(for recipes: [RecipeModel]) -> some View {
         ScrollView(.vertical) {
             if recipes.isEmpty {
                 noResults

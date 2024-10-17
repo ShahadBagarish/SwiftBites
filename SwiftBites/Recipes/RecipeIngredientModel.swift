@@ -11,10 +11,13 @@ import SwiftData
 @Model
 final class RecipeIngredientModel: Comparable, Identifiable, Hashable, Codable {
     
-    let id: UUID
-    var ingredient: IngredientModel // One recipesIngredient can belong to only-one Ingredient ( one-to-many)
-//    var recipesIngredient: RecipeModel? // One recipesIngredient can belong to only-one Recipe ( one-to-many)
+    @Attribute(.unique)
+    var id = UUID()
+    @Relationship(inverse: \IngredientModel.recipeIngredients)
+    var ingredient: IngredientModel
     var quantity: String
+    @Relationship(inverse: \RecipeModel.ingredients)
+    var recipe: RecipeModel?
     
     enum codingKeys: String, CodingKey {
         case id
