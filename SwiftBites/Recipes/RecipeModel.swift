@@ -12,9 +12,9 @@ import SwiftData
 final class RecipeModel: Identifiable, Hashable {
     
     let id: UUID
-    var name: String
+    @Attribute(.unique) var name: String
     var summary: String
-    @Relationship(deleteRule: .nullify, inverse: \CategoryModel.recipes) var category: CategoryModel? // One recipe can belong to only-one categories ( one-to-many)
+    @Relationship(deleteRule: .nullify) var category: CategoryModel? // One recipe can belong to only-one categories ( one-to-many)
     var serving: Int
     var time: Int
     @Relationship(deleteRule: .cascade) var ingredients: [RecipeIngredientModel] // One recipe can belong to many RecipeIngredient ( one-to-many)

@@ -52,7 +52,7 @@ struct RecipeForm: View {
     
     @Environment(\.modelContext) private var context
     @Query(FetchDescriptor<CategoryModel>(sortBy: [SortDescriptor(\CategoryModel.name)]))
-    private var categories: [CategoryModel] = []
+    private var categories: [CategoryModel]
     
     // MARK: - Body
     
@@ -91,9 +91,9 @@ struct RecipeForm: View {
     
     private func ingredientPicker() -> some View {
         IngredientsView { selectedIngredient in
-          let recipeIngredient = RecipeIngredientModel(ingredient: selectedIngredient, quantity: "")
-          context.insert(recipeIngredient)
-          ingredients.append(recipeIngredient)
+            let recipeIngredient = RecipeIngredientModel(ingredient: selectedIngredient, quantity: "")
+            context.insert(recipeIngredient)
+            ingredients.append(recipeIngredient)
         }
     }
     
@@ -267,16 +267,31 @@ struct RecipeForm: View {
         guard case .edit(let recipe) = mode else {
             fatalError("Delete unavailable in add mode")
         }
+        
         ingredients.removeAll()
         for ingredient in recipe.ingredients {
             context.delete(ingredient)
         }
-        if let category = category, let repCat = category.recipes.first(where: { $0.id == recipe.id }) {
-            context.delete(repCat)
+        
+        if let oldCategory = recipe.category, let category = category {
+            if oldCategory != category {
+                oldCategory.recipes.removeAll { $0 == recipe }
+                category.recipes.append(recipe)
+            }
+        }
+        recipe.category = nil
+        context.delete(recipe)
+        
+        if let category = category {
+            category.recipes.append(recipe)
+        }
+        do {
+            try context.save()
+            dismiss()
+        } catch {
+            print("Error saving context: \(error)")
         }
         
-        context.delete(recipe)
-        dismiss()
     }
     
     private func deleteRecipeIngredient(recipeIngredient: RecipeIngredientModel) {

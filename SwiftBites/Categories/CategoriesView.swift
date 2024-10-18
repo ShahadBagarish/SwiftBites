@@ -6,7 +6,7 @@ struct CategoriesView: View {
     @State private var searchText = ""
     
     @Query(FetchDescriptor<CategoryModel>(sortBy: [SortDescriptor(\CategoryModel.name)]))
-    private var categories: [CategoryModel] = []
+    private var categories: [CategoryModel]
     
     @State private var query: String = ""
     
