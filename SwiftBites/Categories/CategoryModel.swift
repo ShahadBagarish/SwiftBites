@@ -13,8 +13,7 @@ final class CategoryModel: Identifiable, Hashable {
 
     var id = UUID()
     @Attribute(.unique) var name: String
-    @Relationship(deleteRule: .cascade, inverse: \RecipeModel.category) var recipes: [RecipeModel]
-    
+    @Relationship(deleteRule: .cascade) var recipes: [RecipeModel]
     
     init() {
         id = UUID()

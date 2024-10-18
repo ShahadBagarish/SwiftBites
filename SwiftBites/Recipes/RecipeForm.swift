@@ -31,6 +31,7 @@ struct RecipeForm: View {
             _instructions = .init(initialValue: recipe.instructions)
             _ingredients = .init(initialValue: recipe.ingredients)
             _category = .init(initialValue: recipe.category ?? CategoryModel())
+            _categoryId = .init(initialValue: recipe.category?.id)
             _imageData = .init(initialValue: recipe.imageData)
             
         }
@@ -43,6 +44,7 @@ struct RecipeForm: View {
     @State private var time: Int
     @State private var instructions: String
     @State private var category: CategoryModel?
+    @State private var categoryId: CategoryModel.ID?
     @State private var ingredients: [RecipeIngredientModel]
     @State private var imageItem: PhotosPickerItem?
     @State private var imageData: Data?
@@ -268,23 +270,18 @@ struct RecipeForm: View {
             fatalError("Delete unavailable in add mode")
         }
         
+        let category = categories.first(where: { $0.id == categoryId })
+        
         ingredients.removeAll()
+        
         for ingredient in recipe.ingredients {
             context.delete(ingredient)
         }
-        
-        if let oldCategory = recipe.category, let category = category {
-            if oldCategory != category {
-                oldCategory.recipes.removeAll { $0 == recipe }
-                category.recipes.append(recipe)
-            }
-        }
-        recipe.category = nil
+        category?.recipes.removeAll(where: { categoryRecipe in
+            categoryRecipe == recipe
+        })
         context.delete(recipe)
         
-        if let category = category {
-            category.recipes.append(recipe)
-        }
         do {
             try context.save()
             dismiss()
@@ -362,17 +359,17 @@ struct RecipeForm: View {
                 ingredient.recipe = recipe
             }
             
-            recipe.ingredients = ingredients
-            recipe.category = category
-            context.insert(recipe)
-            
             if let category = category {
                 category.recipes.append(recipe)
             }
+            
+            recipe.ingredients = ingredients
+            recipe.category = category
+            context.insert(recipe)
         }
+        
         do {
             try context.save()
-            
             dismiss()
         } catch {
             print("Error saving context: \(error)")
