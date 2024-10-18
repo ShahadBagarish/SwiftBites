@@ -23,7 +23,6 @@ struct CategoryForm: View {
     private let title: String
     @State private var name: String
     @State private var error: Error?
-    //  @Environment(\.storage) private var storage
     @Environment(\.dismiss) private var dismiss
     @FocusState private var isNameFocused: Bool
     @Environment(\.modelContext) private var context
@@ -70,26 +69,49 @@ struct CategoryForm: View {
     // MARK: - Data
     
     private func delete(category: CategoryModel) {
-      context.delete(category)
-      dismiss()
+        context.delete(category)
+        
+        print("DIBUG: \(category.recipes)")
+        for recipe in category.recipes {
+            recipe.category = nil
+        }
+        
+        do {
+            try context.save()
+            dismiss()
+        } catch {
+            print("Error saving context: \(error)")
+        }
     }
     
     private func save() {
-      switch mode {
-      case .add:
-        let category = CategoryModel(name: name)
-        context.insert(category)
-      case .edit(let category):
-        category.name = name
-      }
-      
-      // Save changes
-      do {
-        try context.save()
+        switch mode {
+        case .add:
+            let category = CategoryModel(name: name)
+            context.insert(category)
+            
+            print("DIBUG: \(category.recipes)")
+            for recipe in category.recipes {
+                recipe.category = recipe.category
+            }
+            
+            do {
+                try context.save()
+                dismiss()
+            } catch {
+                print("Error saving context: \(error)")
+            }
+        case .edit(let category):
+            category.name = name
+        }
         
-        dismiss()
-      } catch {
-        print("Error saving context: \(error)")
-      }
+        // Save changes
+        do {
+            try context.save()
+            
+            dismiss()
+        } catch {
+            print("Error saving context: \(error)")
+        }
     }
 }

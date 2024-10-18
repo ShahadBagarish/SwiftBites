@@ -161,7 +161,7 @@ struct RecipeForm: View {
     private var categorySection: some View {
         Section {
             Picker("Category", selection: $category) {
-                Text("None").tag(nil as CategoryModel.ID?)
+                Text("None").tag(nil as CategoryModel?)
                 ForEach(categories) { category in
                     Text(category.name).tag(category as CategoryModel?)
                 }
@@ -294,8 +294,7 @@ struct RecipeForm: View {
     }
     
     private func save() {
-        let category = categories.first(where: { $0 == self
-            .category })
+        let category = categories.first(where: { $0 == self.category })
         
         switch mode {
         case .add:
@@ -309,6 +308,7 @@ struct RecipeForm: View {
                                      imageData: imageData)
             
             recipe.ingredients = ingredients
+            recipe.category = category
             context.insert(recipe)
             
             if let category = category {
@@ -348,6 +348,12 @@ struct RecipeForm: View {
             }
             
             recipe.ingredients = ingredients
+            recipe.category = category
+            context.insert(recipe)
+            
+            if let category = category {
+                category.recipes.append(recipe)
+            }
         }
         do {
             try context.save()

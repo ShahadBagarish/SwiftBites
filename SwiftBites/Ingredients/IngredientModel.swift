@@ -9,33 +9,12 @@ import Foundation
 import SwiftData
 
 @Model
-final class IngredientModel: Comparable, Identifiable, Hashable, Codable {
-    
-    @Attribute(.unique)
+final class IngredientModel:  Identifiable, Hashable {
+ 
     var id = UUID()
-    @Attribute(.unique)
-    var name: String
-    @Relationship(deleteRule: .nullify)
-    var recipeIngredients: [RecipeIngredientModel]?
+    @Attribute(.unique) var name: String
+    @Relationship var recipeIngredients: [RecipeIngredientModel]?
     
-    enum codingKeys: String, CodingKey {
-        case id
-        case name
-    }
-    
-    // Decoding initializer
-    init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: codingKeys.self)
-        self.id = try container.decode(UUID.self, forKey: .id)
-        self.name = try container.decode(String.self, forKey: .name)
-    }
-    
-    // Encoding function
-    func encode(to encoder: any Encoder) throws {
-        var container = encoder.container(keyedBy: codingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(name, forKey: .name)
-    }
     
     init() {
         id = UUID()

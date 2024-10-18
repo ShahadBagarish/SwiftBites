@@ -6,7 +6,7 @@ struct RecipesView: View {
     
     @Environment(\.modelContext) private var context
     @Query(FetchDescriptor<RecipeModel>(sortBy: [SortDescriptor(\RecipeModel.name)]))
-    private var recipes: [RecipeModel] = []
+    private var recipes: [RecipeModel]
     
     @State private var query = ""
     @State private var sortOrder = SortDescriptor(\RecipeModel.name)
